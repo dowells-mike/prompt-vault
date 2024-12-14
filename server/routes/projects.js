@@ -6,9 +6,10 @@ const Project = require('../models/project');
 // @desc    Create a project
 router.post('/', async (req, res) => {
   try {
+    const { name, prompts } = req.body; // Extract name and prompts from request body
     const newProject = new Project({
       name: req.body.name,
-      prompts: []
+      prompts: prompts || [] // Use provided prompts or default to an empty array
     });
 
     const project = await newProject.save();

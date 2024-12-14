@@ -4,7 +4,7 @@ const projectSchema = new mongoose.Schema({
   name: { type: String, required: true },
   prompts: [{
     parts: [String],
-    fullPrompt: String,
+    fullPrompt: { type: String, required: false },
     images: [String] 
   }]
 });
