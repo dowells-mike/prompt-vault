@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Container, CssBaseline, Box, Divider, Typography } from '@mui/material';
+import { Container, CssBaseline, Box, Typography, Stack } from '@mui/material';
 import ProjectHeader from './components/ProjectHeader';
 import PromptBuilder from './components/PromptBuilder';
 import PromptPreview from './components/PromptPreview';
@@ -25,6 +25,10 @@ const theme = createTheme({
   },
   typography: {
     fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    h4: {
+      fontWeight: 600,
+      letterSpacing: '-0.5px'
+    }
   },
   components: {
     MuiPaper: {
@@ -134,9 +138,38 @@ function App() {
       <CssBaseline />
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            PromptSaver
-          </Typography>
+          <Stack 
+            direction="row" 
+            alignItems="center" 
+            spacing={2} 
+            sx={{ 
+              mb: 3,
+              pb: 3,
+              borderBottom: '1px solid',
+              borderColor: 'divider'
+            }}
+          >
+            <img 
+              src="/promptvault_logo.jpg" 
+              alt="PromptVault Logo" 
+              style={{ 
+                height: '40px',
+                width: 'auto',
+                borderRadius: '8px'
+              }} 
+            />
+            <Typography 
+              variant="h4" 
+              component="h1" 
+              sx={{
+                background: 'linear-gradient(45deg, #2196f3 30%, #21CBF3 90%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent'
+              }}
+            >
+              PromptVault
+            </Typography>
+          </Stack>
           
           <ProjectHeader
             projectName={projectName}
@@ -152,9 +185,15 @@ function App() {
             onDeleteProject={handleDeleteProject}
           />
 
-          <Divider />
-
-          <Typography variant="h6" gutterBottom>
+          <Typography 
+            variant="h6" 
+            gutterBottom
+            sx={{ 
+              mt: 2,
+              color: 'text.secondary',
+              fontWeight: 500
+            }}
+          >
             Prompt Builder
           </Typography>
 
@@ -163,7 +202,15 @@ function App() {
             setParts={setPromptParts}
           />
 
-          <Typography variant="h6" gutterBottom>
+          <Typography 
+            variant="h6" 
+            gutterBottom
+            sx={{ 
+              mt: 2,
+              color: 'text.secondary',
+              fontWeight: 500
+            }}
+          >
             Reference Images
           </Typography>
 
