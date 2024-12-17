@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import { Container, CssBaseline, Box } from '@mui/material';
+import { Container, CssBaseline, Box, Divider, Typography } from '@mui/material';
 import ProjectHeader from './components/ProjectHeader';
 import PromptBuilder from './components/PromptBuilder';
 import PromptPreview from './components/PromptPreview';
 import ProjectList from './components/ProjectList';
 import ExportButton from './components/ExportButton';
+import ImageUploader from './components/ImageUploader';
 
 const theme = createTheme({
   palette: {
@@ -43,7 +44,7 @@ function App() {
   const [projectName, setProjectName] = useState('');
   const [promptParts, setPromptParts] = useState([]);
   const [fullPrompt, setFullPrompt] = useState('');
-  const [selectedImages, setSelectedImages] = useState([]);
+  const [images, setImages] = useState([]);
 
   useEffect(() => {
     fetchProjects();
@@ -72,7 +73,10 @@ function App() {
         prompts: [{
           parts: promptParts.map(part => part.content),
           fullPrompt,
-          images: selectedImages
+          images: images.map(img => ({
+            name: img.name,
+            data: img.data
+          }))
         }]
       };
 
@@ -86,7 +90,7 @@ function App() {
       setProjectName('');
       setPromptParts([]);
       setFullPrompt('');
-      setSelectedImages([]);
+      setImages([]);
       setSelectedProject(null);
     } catch (error) {
       console.error('Error saving project:', error);
@@ -102,10 +106,26 @@ function App() {
         setProjectName('');
         setPromptParts([]);
         setFullPrompt('');
-        setSelectedImages([]);
+        setImages([]);
       }
     } catch (error) {
       console.error('Error deleting project:', error);
+    }
+  };
+
+  const handleSelectProject = (project) => {
+    setSelectedProject(project);
+    setProjectName(project.name);
+    if (project.prompts && project.prompts.length > 0) {
+      const latestPrompt = project.prompts[project.prompts.length - 1];
+      setPromptParts(
+        latestPrompt.parts.map((content, index) => ({
+          id: `${Date.now()}-${index}`,
+          content
+        }))
+      );
+      setFullPrompt(latestPrompt.fullPrompt);
+      setImages(latestPrompt.images || []);
     }
   };
 
@@ -114,6 +134,10 @@ function App() {
       <CssBaseline />
       <Container maxWidth="lg" sx={{ py: 4 }}>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
+          <Typography variant="h4" component="h1" gutterBottom>
+            PromptSaver
+          </Typography>
+          
           <ProjectHeader
             projectName={projectName}
             setProjectName={setProjectName}
@@ -124,13 +148,28 @@ function App() {
           <ProjectList
             projects={projects}
             selectedProject={selectedProject}
-            onSelectProject={setSelectedProject}
+            onSelectProject={handleSelectProject}
             onDeleteProject={handleDeleteProject}
           />
+
+          <Divider />
+
+          <Typography variant="h6" gutterBottom>
+            Prompt Builder
+          </Typography>
 
           <PromptBuilder
             parts={promptParts}
             setParts={setPromptParts}
+          />
+
+          <Typography variant="h6" gutterBottom>
+            Reference Images
+          </Typography>
+
+          <ImageUploader
+            images={images}
+            setImages={setImages}
           />
 
           <PromptPreview
@@ -142,6 +181,7 @@ function App() {
           <ExportButton
             projectName={projectName}
             fullPrompt={fullPrompt}
+            images={images}
           />
         </Box>
       </Container>
