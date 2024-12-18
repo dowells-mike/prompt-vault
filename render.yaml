@@ -1,0 +1,25 @@
+services:
+  # Backend API service
+  - type: web
+    name: promptvault-api
+    env: node
+    buildCommand: npm install
+    startCommand: node server/server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGO_URI
+        sync: false # This will be set manually in Render dashboard
+      - key: PORT
+        value: 10000
+
+  # Frontend static site
+  - type: web
+    name: promptvault-web
+    env: static
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: ./client/build
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html

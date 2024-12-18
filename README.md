@@ -43,7 +43,73 @@ PromptVault is a modern web application for managing and organizing AI prompts. 
   - MongoDB
   - Mongoose
 
-## Getting Started
+## Deployment Guide
+
+### Prerequisites
+
+1. Create accounts on:
+   - [GitHub](https://github.com) (for source code)
+   - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) (for database)
+   - [Render](https://render.com) (for hosting)
+
+### Step 1: Set Up MongoDB Atlas
+
+1. Create a new cluster (Free tier is fine)
+2. Create a database user:
+   - Go to Security → Database Access
+   - Add new user with read/write permissions
+3. Get connection string:
+   - Go to Clusters → Connect
+   - Choose "Connect your application"
+   - Copy the connection string
+   - Replace `<password>` with your database user's password
+
+### Step 2: Deploy to Render
+
+1. Fork/Clone this repository to your GitHub account
+
+2. Connect to Render:
+   - Go to [Render Dashboard](https://dashboard.render.com)
+   - Click "New +"
+   - Select "Web Service"
+   - Connect your GitHub repository
+
+3. Configure the Web Service:
+   - Name: `promptvault-api`
+   - Environment: `Node`
+   - Build Command: `npm install`
+   - Start Command: `node server/server.js`
+   - Add Environment Variables:
+     ```
+     NODE_ENV=production
+     MONGO_URI=your_mongodb_connection_string
+     PORT=10000
+     ```
+
+4. Deploy Static Site:
+   - Click "New +"
+   - Select "Static Site"
+   - Connect same repository
+   - Configure:
+     - Name: `promptvault-web`
+     - Build Command: `cd client && npm install && npm run build`
+     - Publish Directory: `client/build`
+
+5. Update API URL:
+   - Go to your static site settings
+   - Add environment variable:
+     ```
+     REACT_APP_API_URL=https://your-api-service-url.render.com
+     ```
+
+### Step 3: Verify Deployment
+
+1. Wait for both services to deploy
+2. Check the logs for any errors
+3. Visit your static site URL
+4. Test the application functionality
+
+## Local Development
 
 ### Prerequisites
 
@@ -77,23 +143,6 @@ PromptVault is a modern web application for managing and organizing AI prompts. 
    ```
 
 The app will be available at `http://localhost:3000`
-
-## Usage
-
-1. **Create a Project**
-   - Click "Add Project"
-   - Enter project name
-   - Add prompt parts
-
-2. **Add Images**
-   - Drag and drop images
-   - Or click to select files
-   - View in preview grid
-
-3. **Export**
-   - Choose export format
-   - Download or copy to clipboard
-   - Include images if needed
 
 ## Contributing
 
