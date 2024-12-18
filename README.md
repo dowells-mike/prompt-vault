@@ -1,10 +1,10 @@
-# PromptSaver
+# PromptVault
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Description
 
-PromptSaver is a web application designed to help you manage and store prompts for AI image generation tools like Midjourney, ImageFX, Stable Diffusion, and others. Never lose track of your creative prompts again! With PromptSaver, you can:
+PromptVault is a web application designed to help you manage and store prompts for AI image generation tools like Midjourney, ImageFX, Stable Diffusion, and others. Never lose track of your creative prompts again! With PromptSaver, you can:
 
 *   Organize prompts into projects.
 *   Build prompts using modular parts (subject, props, art style, etc.).
