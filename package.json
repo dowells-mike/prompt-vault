@@ -7,23 +7,26 @@
     "server": "nodemon server/server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "cd client && npm run build",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "author": "Mike Dowells",
+  "license": "MIT",
+  "description": "A modern prompt management tool",
   "dependencies": {
-    "array-flatten": "^3.0.0",
-    "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "mongoose": "^8.9.0",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.2"
   },
   "devDependencies": {
     "concurrently": "^8.2.2",
     "nodemon": "^3.0.3"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }
